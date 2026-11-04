@@ -131,4 +131,75 @@ async function trier(observations) {
         console.log('Choix inconnu, retour au menu.');
     }
 }
+function synthese(observations) {
+    console.log('\n--- Synthèse des observations ---');
+    console.log(`Nombre total d'observations : ${observations.length}`);
+    
+    const minMax = phMinMax(observations);
+    if (minMax === null) {
+        console.log('pH minimum et maximum : aucune donnée[cite: 3].');
+    } else {
+        console.log(`- pH Minimum : ${minMax.min}[cite: 3]`);
+        console.log(`- pH Maximum : ${minMax.max}[cite: 3]`);
+    }
 
+    console.log('- Comptage par texture :');
+    const comptage = compterParTexture(observations);
+    for (const [texture, count] of Object.entries(comptage)) {
+        console.log(`  * ${texture} : ${count}`);
+    }
+
+    const aDiscuter = pointsADiscuter(observations);
+    console.log(`- Points à discuter (pH < ${SEUIL_PH_A_DISCUTER}) : ${aDiscuter.length > 0 ? aDiscuter.map(o => o.id).join(', ') : 'Aucun'}`);
+}
+
+async function main() {
+    ouvrirSaisie();
+    afficherAccueil();
+    const observations = await chargerRegistre();
+
+    let continuer = true;
+    while (continuer) {
+        afficherMenu();
+        const choix = await demander('Votre choix : ');
+        if (choix === null) {
+            break;
+        }
+
+        try {
+            switch (choix.trim()) {
+                case '1':
+                    await ajouter(observations);
+                    break;
+                case '2':
+                    lister(observations);
+                    break;
+                case '3':
+                    await rechercher(observations);
+                    break;
+                case '4':
+                    await trier(observations);
+                    break;
+                case '5':
+                    synthese(observations);
+                    break;
+                case '0':
+                    console.log('Au revoir !');
+                    continuer = false;
+                    break;
+                default:
+                    console.log(`Choix inconnu : "${choix}". Tapez un chiffre du menu.`);
+                    break;
+            }
+        } catch (erreur) {
+            if (erreur.message.startsWith('TODO')) {
+                console.log(`À compléter : ${erreur.message}`);
+            } else {
+                console.log(`Erreur inattendue : ${erreur.message}`);
+            }
+        }
+    }
+    fermerSaisie();
+} 
+
+main();
