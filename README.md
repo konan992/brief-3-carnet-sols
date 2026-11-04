@@ -4,7 +4,7 @@
 
 ## Contexte
 
-✏️ *En cinq à huit phrases : qui utilise l'outil (son métier, son geste professionnel), son besoin, ce qu'il saisit, ce que le programme lui affiche, ce que l'outil ne fait pas.*
+Cet outil est destiné à l'équipe de la ferme pédagogique et aux techniciens de terrain (Agritech). Il permet d'enregistrer les informations sur le sol de chaque parcelle (texture, pH et humidité). Il aide à repérer les sols qui nécessitent une attention particulière, notamment ceux dont le pH est inférieur à 5,5. Les données enregistrées peuvent être consultées, classées et résumées.
 
 ## Prérequis et lancement
 
@@ -23,7 +23,7 @@ Sous PowerShell, si `npm` est bloqué : `npm.cmd test`.
 
 ✏️ *Cochez seulement ce qui marche : `- [x]`.*
 
-- [ ] Données lues et enregistrées dans `donnees/observations.json`
+- [ x] Données lues et enregistrées dans `donnees/observations.json`
 - [ ] Ajouter une observation, saisies invalides refusées sans arrêter le programme
 - [ ] Lister les observations, message si le carnet est vide
 - [ ] Rechercher par point ou par parcelle ; filtrer par texture
