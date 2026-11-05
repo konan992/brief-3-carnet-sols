@@ -28,4 +28,6 @@ S04,S09,S06,S01
 | Trier les parcelles par pH| Les parcelles sont classées selon leur pH|Le classement fonctionne correctement |Moi |
 | Afficher la synthèse |Le programme affiche les statistiques des sols | Les informations statistiques s'affichen|Moi |
 
-**Sur un autre poste** (`git clone`, `node app.js`, `npm test`, en suivant le README) : ✏️
+**Sur un autre poste** (`git clone`, `node app.js`, `npm test`, en suivant le README) :
+-koffi Marie Carmelle
+-Anglovia konan 
