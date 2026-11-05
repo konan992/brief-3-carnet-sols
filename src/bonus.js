@@ -2,6 +2,7 @@
 // Fiche : fiches/7-bonus.md · Vérifier : npm run test:bonus
 // Ni pseudo-code de référence ni aide détaillée : à vous de combiner ce que vous avez appris.
 // Les choix 6 et 7 du menu sont à écrire vous-même dans app.js (voir la fiche).
+
 import { versNombre } from './outils.js';
 import { trouverParId, verifierObservation } from './registre.js';
 import { compterParTexture } from './synthese.js';
@@ -12,7 +13,13 @@ export const CHAMPS_MODIFIABLES = ['parcelle', 'texture', 'pH', 'etatHumidite'];
 // Supprime du carnet l'observation qui a cet identifiant.
 // Renvoie l'observation supprimée, ou undefined si elle n'existe pas (le carnet ne change pas).
 export function supprimerObservation(observations, id) {
-  throw new Error('TODO Bonus : coder supprimerObservation dans src/bonus.js');
+  const index = observations.findIndex((observation) => observation.id === id);
+
+  if (index === -1) {
+    return undefined;
+  }
+
+  return observations.splice(index, 1)[0];
 }
 
 // Modifie UN champ d'une observation. La nouvelle valeur arrive sous forme de TEXTE et suit
@@ -21,17 +28,47 @@ export function supprimerObservation(observations, id) {
 // Erreurs : identifiant introuvable · champ 'id' (non modifiable) · champ absent de CHAMPS_MODIFIABLES
 //           · valeur refusée par les règles de l'ajout.
 export function modifierObservation(observations, id, champ, valeur) {
-  throw new Error('TODO Bonus : coder modifierObservation dans src/bonus.js');
+  const observation = trouverParId(observations, id);
+
+  if (!observation) {
+    return ["L'observation est introuvable."];
+  }
+
+  if (champ === 'id' || !CHAMPS_MODIFIABLES.includes(champ)) {
+    return [`Le champ '${champ}' n'est pas modifiable.`];
+  }
+
+  const saisieSimulee = {
+    id: observation.id,
+    parcelle: String(observation.parcelle),
+    texture: String(observation.texture),
+    pH: String(observation.pH),
+    etatHumidite: String(observation.etatHumidite),
+    [champ]: valeur,
+  };
+
+  const autresObservations = observations.filter(
+    (observation) => observation.id !== id
+  );
+
+  const erreurs = verifierObservation(saisieSimulee, autresObservations);
+
+  if (erreurs.length > 0) {
+    return erreurs;
+  }
+
+  if (champ === 'pH') {
+    observation.pH = versNombre(valeur);
+  } else {
+    observation[champ] = valeur;
+  }
+
+  return [];
 }
 
 // Renvoie une COPIE triée par pH décroissant. Le tableau reçu ne doit pas changer d'ordre.
-export function trierParPhDecroissant(observations) {
-  throw new Error('TODO Bonus : coder trierParPhDecroissant dans src/bonus.js');
-}
+
 
 // Renvoie { texture, nombre } pour la texture la plus fréquente, ou null si la liste est vide.
 // En cas d'égalité, la première texture rencontrée l'emporte.
 // Exemple : { texture: 'limoneux', nombre: 4 }
-export function textureLaPlusFrequente(observations) {
-  throw new Error('TODO Bonus : coder textureLaPlusFrequente dans src/bonus.js');
-}
